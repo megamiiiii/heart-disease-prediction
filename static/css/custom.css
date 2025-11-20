@@ -1,0 +1,5 @@
+/* custom minimal styling - modern & subtle */
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+.card { border-radius: 12px; }
+.navbar-brand { font-size: 1.05rem; color: #0b5cff; }
+footer { background: none; }
