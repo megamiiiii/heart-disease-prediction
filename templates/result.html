@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h4 class="mb-1">Hasil Prediksi</h4>
+        <p class="text-muted small mb-3">Probabilitas gabungan (RF + LR)</p>
+
+        <div class="mb-3">
+          <h5 class="fw-bold">{{ label }}</h5>
+          <p class="mb-1">Probabilitas akhir: <span class="fw-semibold">{{ probability }}</span></p>
+          <p class="mb-1 text-muted">Prob. RF: {{ raw_rf }} &nbsp;|&nbsp; Prob. LR: {{ raw_lr }}</p>
+          <hr>
+          <p class="small">{{ advice }}</p>
+        </div>
+
+        <h6 class="mt-3">Input (rekap)</h6>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <tbody>
+              {% for k, v in inputs.items() %}
+              <tr>
+                <td class="text-muted small text-capitalize">{{ k.replace('_',' ') }}</td>
+                <td class="fw-semibold">{{ v }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-3">
+          <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
