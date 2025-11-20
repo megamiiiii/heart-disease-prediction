@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="card-title mb-2">Sistem Prediksi Risiko Penyakit Jantung</h3>
+        <p class="text-muted small">Masukkan data klinis pasien pada form berikut. Hasil prediksi adalah bantuan keputusan klinis awal.</p>
+
+        <form method="post" action="{{ url_for('predict') }}" class="row g-3">
+
+          <!-- ======================
+               1. Usia (numeric)
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Usia (tahun)</label>
+            <input type="number" name="age" class="form-control form-control-sm" min="18" max="100" required>
+            <div class="form-text small">Rentang: 18–100</div>
+          </div>
+
+          <!-- ======================
+               2. Jenis Kelamin
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Jenis Kelamin</label>
+            <select name="sex" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="1">Laki-laki</option>
+              <option value="0">Perempuan</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               3. Tipe Nyeri Dada (CP)
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Tipe Nyeri Dada (Chest Pain Type)</label>
+            <select name="cp" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="0">0 – Typical Angina</option>
+              <option value="1">1 – Atypical Angina</option>
+              <option value="2">2 – Non-anginal Pain</option>
+              <option value="3">3 – Asymptomatic</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               4. Tekanan Darah Istirahat
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Tekanan Darah (mmHg)</label>
+            <input type="number" name="trestbps" class="form-control form-control-sm" min="90" max="200" required>
+            <div class="form-text small">Rentang: 90–200</div>
+          </div>
+
+          <!-- ======================
+               5. Kolesterol
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Kolesterol (mg/dl)</label>
+            <input type="number" name="chol" class="form-control form-control-sm" min="100" max="600" required>
+            <div class="form-text small">Rentang: 100–600</div>
+          </div>
+
+          <!-- ======================
+               6. Fasting Blood Sugar
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Fasting Blood Sugar > 120 mg/dl</label>
+            <select name="fbs" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="1">Ya</option>
+              <option value="0">Tidak</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               7. Resting ECG
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Rest ECG</label>
+            <select name="restecg" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="0">0 – Normal</option>
+              <option value="1">1 – ST-T Abnormal</option>
+              <option value="2">2 – Left Ventricular Hypertrophy</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               8. Detak Jantung Maksimum
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Detak Jantung Maks (Thalach)</label>
+            <input type="number" name="thalach" class="form-control form-control-sm" min="60" max="220" required>
+            <div class="form-text small">Rentang: 60–220</div>
+          </div>
+
+          <!-- ======================
+               9. Exercise Angina
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Exercise Angina</label>
+            <select name="exang" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="1">Ya</option>
+              <option value="0">Tidak</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               10. Oldpeak
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Oldpeak (ST Depression)</label>
+            <input type="number" name="oldpeak" class="form-control form-control-sm" min="0" max="6.5" step="0.1" required>
+            <div class="form-text small">Rentang: 0.0–6.5</div>
+          </div>
+
+          <!-- ======================
+               11. Slope ST
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Slope of ST</label>
+            <select name="slope" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="0">0 – Upsloping</option>
+              <option value="1">1 – Flat</option>
+              <option value="2">2 – Downsloping</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               12. Jumlah Pembuluh (CA)
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Jumlah Pembuluh (0–3)</label>
+            <input type="number" name="ca" class="form-control form-control-sm" min="0" max="3" required>
+            <div class="form-text small">Rentang: 0–3</div>
+          </div>
+
+          <!-- ======================
+               13. Thalassemia
+          ======================= -->
+          <div class="col-md-6">
+            <label class="form-label small">Thalassemia</label>
+            <select name="thal" class="form-select form-select-sm" required>
+              <option value="">Pilih</option>
+              <option value="3">3 – Normal</option>
+              <option value="6">6 – Fixed Defect</option>
+              <option value="7">7 – Reversible Defect</option>
+            </select>
+          </div>
+
+          <!-- ======================
+               Tombol
+          ======================= -->
+          <div class="col-12 mt-2">
+            <button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-play-fill me-1"></i> Prediksi</button>
+            <button class="btn btn-outline-secondary btn-sm" type="reset">Reset</button>
+          </div>
+        </form>
+
+        <hr class="my-4">
+
+        <div id="about" class="small text-muted">
+          <h6>Tentang</h6>
+          <p>Alat ini menggunakan model machine learning (Random Forest + Logistic Regression) untuk memberikan estimasi probabilitas risiko penyakit jantung. Hasil bersifat informatif dan harus dikombinasikan dengan pemeriksaan klinis serta interpretasi tenaga medis.</p>
+          <p>Sistem ini dibuat untuk memenuhi Tugas Data Mining - Mahasiswa STMIK Palangkaraya (Kelompok 3)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
