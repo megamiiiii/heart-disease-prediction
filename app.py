@@ -1,3 +1,4 @@
+import streamlit as st
 from flask import Flask, render_template, request, redirect, url_for, flash
 import pickle
 import numpy as np
@@ -103,3 +104,4 @@ def predict():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
